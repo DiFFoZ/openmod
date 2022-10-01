@@ -15,7 +15,7 @@
     <PackageReference Include="NuGet.Frameworks" Version="6.1.0" />
     <PackageReference Include="NuGet.Packaging" Version="6.3.0" />
     <PackageReference Include="NuGet.Protocol" Version="6.1.0" />
-    <PackageReference Include="NuGet.Resolver" Version="6.1.0" />
+    <PackageReference Include="NuGet.Resolver" Version="6.3.0" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
