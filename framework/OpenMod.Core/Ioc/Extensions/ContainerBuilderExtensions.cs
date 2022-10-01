@@ -104,7 +104,7 @@ namespace OpenMod.Core.Ioc.Extensions
                     var registration = registrator.CreateRegistration();
                     containerBuilder.RegisterComponent(registration);
                 }
-                else
+                else if (descriptor.ImplementationInstance != null)
                 {
                     Log.Information("Descriptor: instance {ServiceType}, {ImplementationType}",
                         descriptor.ServiceType, descriptor.ImplementationInstance.GetType());

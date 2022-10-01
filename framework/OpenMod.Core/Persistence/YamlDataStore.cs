@@ -112,8 +112,8 @@ namespace OpenMod.Core.Persistence
 
         private async Task ChangeEventHandler(FileSystemEventArgs a)
         {
-            if (a.ChangeType == WatcherChangeTypes.Renamed ||
-                a.ChangeType == WatcherChangeTypes.Deleted)
+            if (a.ChangeType is WatcherChangeTypes.Renamed or
+                WatcherChangeTypes.Deleted)
             {
                 return;
             }
@@ -254,7 +254,7 @@ namespace OpenMod.Core.Persistence
             // when reading from a FileSystemWatcher's event.
             //
             // Similar: https://stackoverflow.com/q/49551278
-            var encodedData = await Retry.DoAsync(() => File.ReadAllBytes((filePath)), TimeSpan.FromMilliseconds(1), 5);
+            var encodedData = await Retry.DoAsync(() => File.ReadAllBytes(filePath), TimeSpan.FromMilliseconds(1), 5);
 
             using var sha = new SHA256Managed();
             var contentHash = BitConverter.ToString(sha.ComputeHash(encodedData));
@@ -368,7 +368,7 @@ namespace OpenMod.Core.Persistence
 
                 AddChangeWatcher(key, m_Runtime!, () =>
                 {
-                    m_Logger.LogInformation("Reloaded {Prefix}{Key}{Suffix}.yaml",
+                    m_Logger?.LogInformation("Reloaded {Prefix}{Key}{Suffix}.yaml",
                         m_Prefix ?? string.Empty, key, m_Suffix ?? string.Empty);
                 });
             }

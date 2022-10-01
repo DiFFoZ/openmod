@@ -1,4 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NuGet.Packaging;
 using NuGet.Packaging.Core;
 using NuGet.Versioning;
@@ -6,13 +13,6 @@ using OpenMod.API;
 using OpenMod.API.Plugins;
 using OpenMod.NuGet;
 using Semver;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -235,7 +235,7 @@ namespace OpenMod.Core.Plugins
                 if (packagetToInstall != null)
                 {
                     var result = await m_NuGetPackageManager.InstallAsync(packagetToInstall.Identity);
-                    if (result.Code == NuGetInstallCode.Success || result.Code == NuGetInstallCode.NoUpdatesFound)
+                    if (result.Code is NuGetInstallCode.Success or NuGetInstallCode.NoUpdatesFound)
                     {
                         continue;
                     }

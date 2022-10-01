@@ -135,7 +135,7 @@ namespace OpenMod.Runtime
 
                 SetupSerilog(false);
 
-                m_Logger.LogInformation("OpenMod v{Version} is starting...", Version);
+                m_Logger!.LogInformation("OpenMod v{Version} is starting...", Version);
 
                 if (parameters.PackageManager is not NuGetPackageManager nugetPackageManager)
                 {
@@ -188,7 +188,7 @@ namespace OpenMod.Runtime
                                 hotReloadingEnabled = parsed;
                                 break;
                             default:
-                                m_Logger.LogWarning(
+                                m_Logger!.LogWarning(
                                     "Unknown config for 'hotreloading' in OpenMod configuration: {UnparsedConfig}",
                                     unparsed);
                                 break;
@@ -210,7 +210,7 @@ namespace OpenMod.Runtime
                                     tryInstallMissingDependencies = parsed;
                                     break;
                                 default:
-                                    m_Logger.LogWarning(
+                                    m_Logger!.LogWarning(
                                         "Unknown config for 'tryAutoInstallMissingDependencies' in OpenMod configuration: {UnparsedConfig}",
                                         unparsed);
                                     break;
@@ -276,7 +276,7 @@ namespace OpenMod.Runtime
                 catch (Exception ex)
                 {
                     Status = RuntimeStatus.Crashed;
-                    m_Logger.LogCritical(ex, "OpenMod has crashed");
+                    m_Logger!.LogCritical(ex, "OpenMod has crashed");
                     Log.CloseAndFlush();
                 }
 
@@ -286,7 +286,7 @@ namespace OpenMod.Runtime
                 }
                 catch (Exception ex)
                 {
-                    m_Logger.LogError(ex, "Failed to patch FileSystemWatcher");
+                    m_Logger!.LogError(ex, "Failed to patch FileSystemWatcher");
                 }
 
                 return Host;
@@ -398,7 +398,7 @@ namespace OpenMod.Runtime
         private void SetupServices(IServiceCollection services, OpenModStartup startup)
         {
             services.AddSingleton<IRuntime>(this);
-            services.AddSingleton(HostInformation);
+            services.AddSingleton(HostInformation!);
             services.AddHostedService<OpenModHostedService>();
             services.AddOptions();
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
@@ -509,7 +509,7 @@ namespace OpenMod.Runtime
             }
 
             IsDisposing = true;
-            m_Logger.LogInformation("OpenMod is shutting down...");
+            m_Logger?.LogInformation("OpenMod is shutting down...");
 
             if (Host is not null)
             {
