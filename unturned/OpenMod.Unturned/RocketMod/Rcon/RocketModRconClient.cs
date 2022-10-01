@@ -12,9 +12,11 @@ using Rocket.Core;
 
 namespace OpenMod.Unturned.RocketMod.Rcon
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class RocketModRconClient : BaseTcpRconClient
     {
         private readonly ILogger<RocketModRconClient> m_Logger;
+        private NewLineType? m_NewLineType;
 
         public RocketModRconClient(
             ILogger<RocketModRconClient> logger,
@@ -25,6 +27,7 @@ namespace OpenMod.Unturned.RocketMod.Rcon
             m_Logger = logger;
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         protected Task SendPacketAsync(RocketModRconPacket packet, CancellationToken cancellationToken = default)
         {
             return SendDataAsync(packet.Serialize(), cancellationToken);
@@ -34,7 +37,8 @@ namespace OpenMod.Unturned.RocketMod.Rcon
         {
             return SendPacketAsync(new RocketModRconPacket
             {
-                Body = message
+                Body = message,
+                NewLineType = m_NewLineType ?? NewLineType.Windows
             }, cancellationToken);
         }
 
@@ -45,11 +49,44 @@ namespace OpenMod.Unturned.RocketMod.Rcon
             try
             {
                 var packet = await RocketModRconPacket.ReadFromStreamAsync(stream);
+                if (packet.Body != null)
+                {
+                    switch (m_NewLineType)
+                    {
+                        case NewLineType.Windows:
+                            packet.Body = packet.Body[..^2];//lenght - 2
+                            break;
+
+                        case NewLineType.Linux:
+                        case NewLineType.Mac:
+                            packet.Body = packet.Body[..^1];//lenght - 1
+                            break;
+
+                        default:
+                            if (packet.Body.EndsWith("\r\n"))
+                            {
+                                m_NewLineType = NewLineType.Windows;
+                                packet.Body = packet.Body[..^2];//lenght - 2
+                            }
+                            else if (packet.Body.EndsWith("\n"))
+                            {
+                                m_NewLineType = NewLineType.Linux;
+                                packet.Body = packet.Body[..^1];//lenght - 1
+                            }
+                            else if (packet.Body.EndsWith("\r"))
+                            {
+                                m_NewLineType = NewLineType.Mac;
+                                packet.Body = packet.Body[..^1];//lenght - 1
+                            }
+                            break;
+                    }
+                }
+
                 await ProcessPacketAsync(packet);
             }
             catch (Exception ex)
             {
-                m_Logger.LogError(ex, "Error while procesing packet. Byte count: {count}", data.Count);
+                m_Logger.LogError(ex, "Error while procesing packet. Byte count: {Count}", data.Count);
             }
         }
 
