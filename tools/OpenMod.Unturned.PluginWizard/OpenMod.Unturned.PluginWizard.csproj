@@ -86,7 +86,7 @@
     <PackageReference Include="MahApps.Metro">
       <Version>2.4.9</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="16.10.31321.278" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.3.32804.24" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.4.2114" />
   </ItemGroup>
   <ItemGroup>
