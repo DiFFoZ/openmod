@@ -27,7 +27,7 @@ $if$ ($author$ != "")    <PackageAuthor>$author$</PackageAuthor>
     <PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net461" Version="1.0.0">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net461" Version="1.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
