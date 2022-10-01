@@ -6,5 +6,8 @@
 	"ignorePresets": [
 		":prHourlyLimit2",
 		":branchConcurrentLimit10"
+	],
+	"ignorePaths": [
+		"**/templates/**
 	]
 }
