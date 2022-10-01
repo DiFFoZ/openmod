@@ -23,7 +23,7 @@ $if$ ($author$ != "")    <PackageAuthor>$author$</PackageAuthor>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenMod.Unturned" Version="3.0.17" />
+    <PackageReference Include="OpenMod.Unturned" Version="3.3.8" />
     <PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
