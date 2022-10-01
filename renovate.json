@@ -8,6 +8,6 @@
 		":branchConcurrentLimit10"
 	],
 	"ignorePaths": [
-		"**/templates/**
+		"**/templates/**"
 	]
 }
