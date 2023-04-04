@@ -44,7 +44,7 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.2" />
     <PackageReference Include="Nito.AsyncEx.Tasks" Version="5.1.2" />
-	<PackageReference Include="RuntimeNullables.Fody" Version="1.0.2">
+	<PackageReference Include="RuntimeNullables.Fody" Version="1.0.4">
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive; compile</IncludeAssets>
 	</PackageReference>
