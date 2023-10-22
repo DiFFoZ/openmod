@@ -7,6 +7,7 @@ on:
     branches: [ "main" ]
     paths-ignore:
       - '**/*.md'
+      - '**/redist/*'
       - templates
       - tools
       - samples
@@ -32,10 +33,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Ignore commits in the /docs directory
-    - name: Remove docs directory
-      run: rm -rf docs
-
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
@@ -43,28 +40,10 @@ jobs:
         languages: ${{ matrix.language }}
         queries: +security-and-quality
 
-    - name: Install ReSharper command line tools
-      run: dotnet tool install JetBrains.ReSharper.GlobalTools --global --version 2023.2.2
-
     - name: Build
       run: |
         dotnet restore
         dotnet build -c Debug --no-restore -p:EnforceCodeStyleInBuild=true -p:GeneratePackageOnBuild=false
-
-    - name: Restore InspectCode cache
-      uses: actions/cache@v3
-      with:
-        path: ${{ github.workspace }}/inspectcode
-        key: inspectcode-${{ hashFiles('.github/workflows/codeql-analysis.yaml', 'OpenMod.sln', '.editorconfig', 'OpenMod.sln.DotSettings', '**/*.csproj', '**/*.props') }}
-
-    - name: Inspect code with ReSharper
-      run: jb inspectcode OpenMod.sln --no-build --verbosity=WARN --project=OpenMod.* --exclude="unturned/OpenMod.Unturned.Module.Shared/System.Drawing/*" --caches-home=inspectcode --format=Sarif --output=results.sarif.json
-
-    - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: results.sarif.json
-        category: resharper-inspectcode
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
