@@ -77,7 +77,7 @@ namespace OpenMod.Unturned.Users
                 FinishSession(pending);
             }
 
-            var steamID = steamid;
+            var steamID = steamId;
             
 
             var steamPlayer = PlayerTool.getSteamPlayer(steamID);
