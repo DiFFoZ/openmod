@@ -49,10 +49,16 @@ jobs:
     - name: Build
       run: |
         dotnet restore
-        dotnet build -c Debug --no-restore -p:EnforceCodeStyleInBuild=true
+        dotnet build -c Debug --no-restore -p:EnforceCodeStyleInBuild=true -p:GeneratePackageOnBuild=false
+
+    - name: Restore InspectCode cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/inspectcode
+        key: inspectcode-${{ hashFiles('.github/workflows/codeql-analysis.yaml', 'OpenMod.sln', '.editorconfig', 'OpenMod.sln.DotSettings' '**/*.csproj', '**/*.props') }}
 
     - name: Inspect code with ReSharper
-      run: jb inspectcode OpenMod.sln --no-build --verbosity=WARN --project=OpenMod.* --format=Sarif --output=results.sarif.json
+      run: jb inspectcode OpenMod.sln --no-build --verbosity=WARN --project=OpenMod.* --exclude="unturned/OpenMod.Unturned.Module.Shared/System.Drawing/*" --caches-home=inspectcode --format=Sarif --output=results.sarif.json
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
