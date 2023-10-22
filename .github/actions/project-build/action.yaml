@@ -51,7 +51,7 @@ runs:
         echo "dotnet-restore=dotnet restore \$PROJECT_PATH --runtime ${{ inputs.runtime_version }}" >> $GITHUB_OUTPUT
         echo "dotnet-build=dotnet build \$PROJECT_PATH --configuration Release --no-restore -p:Version=${{ steps.get-version.outputs.version }} -p:PackageVersion=${{ steps.get-version.outputs.version }} -p:InformationalVersion=${{ steps.get-version.outputs.version }} -p:EnforceCodeStyleInBuild=true --runtime ${{ inputs.runtime_version }}" >> $GITHUB_OUTPUT
         echo "dotnet-test=dotnet test \$PROJECT_PATH --configuration Release --no-restore --no-build --runtime ${{ inputs.runtime_version }}" >> $GITHUB_OUTPUT
-      shell: bash
+      shell: bash 
 
     # Install dependencies (this needs to be a separate step from build for caching)
     - name: Install dependencies
