@@ -71,7 +71,7 @@ namespace OpenMod.Unturned.Users
 
         protected virtual void OnPlayerConnected(CSteamID steamId)
         {
-            var pending = m_PendingUsers.FirstOrDefault(d => d.SteamId == steamID);
+            var pending = m_PendingUsers.FirstOrDefault(d => d.SteamId == steamId);
             if (pending != null)
             {
                 FinishSession(pending);
@@ -79,7 +79,7 @@ namespace OpenMod.Unturned.Users
 
             _ = "dump";
 
-            var steamPlayer = PlayerTool.getSteamPlayer(steamID);
+            var steamPlayer = PlayerTool.getSteamPlayer(steamId);
             if (steamPlayer == null)
             {
                 return;
