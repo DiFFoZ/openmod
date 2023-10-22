@@ -37,6 +37,13 @@ jobs:
          languages: ${{ matrix.language }}
          queries: +security-and-quality
 
+    - name: Perform ReSharper InspectCode
+      uses: JetBrains/ReSharper-InspectCode@v0.3
+      with:
+        solution: ./OpenMod.sln
+        settings: ./OpenMod.sln.DotSettings
+        tool-version: 2023.2.2
+
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Autobuild
@@ -57,9 +64,3 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
           category: "/language:${{ matrix.language }}"
-
-    - name: Perform ReSharper InspectCode
-      uses: JetBrains/ReSharper-InspectCode@v0.3
-      with:
-        solution: ./OpenMod.sln
-        settings: ./OpenMod.sln.DotSettings
