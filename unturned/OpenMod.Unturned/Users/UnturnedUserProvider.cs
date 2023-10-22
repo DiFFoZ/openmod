@@ -77,9 +77,10 @@ namespace OpenMod.Unturned.Users
                 FinishSession(pending);
             }
 
-            _ = "dump";
+            var steamID = steamid;
+            
 
-            var steamPlayer = PlayerTool.getSteamPlayer(steamId);
+            var steamPlayer = PlayerTool.getSteamPlayer(steamID);
             if (steamPlayer == null)
             {
                 return;
