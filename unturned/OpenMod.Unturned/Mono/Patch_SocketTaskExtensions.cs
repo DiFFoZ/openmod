@@ -11,7 +11,7 @@ using OpenMod.Unturned.Patching;
 namespace OpenMod.Unturned.Mono;
 
 /// <summary>
-/// Fixes <see cref="SocketTaskExtensions.ReceiveAsync(Socket, Memory{byte}, SocketFlags, CancellationToken)"/>, that <see cref="Memory{byte}"/> is always empty due
+/// Fixes <see cref="SocketTaskExtensions.ReceiveAsync(Socket, Memory{byte}, SocketFlags, CancellationToken)"/>, that <see cref="Memory{T}"/> is always empty due
 /// to coping the memory array.
 /// https://github.com/Unity-Technologies/mono/blob/unity-main/mcs/class/System/System.Net.Sockets/SocketTaskExtensions.cs
 /// </summary>
@@ -32,7 +32,7 @@ internal static class Patch_SocketTaskExtensions
         out ValueTask<int> __result)
     {
         var tcs = new TaskCompletionSource<int>(socket);
-        if (MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>)memory, out var segment))
+        if (MemoryMarshal.TryGetArray<byte>(memory, out var segment))
         {
             // We were able to extract the underlying byte[] from the Memory<byte>. Use it.
 

@@ -57,3 +57,9 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
           category: "/language:${{ matrix.language }}"
+
+    - name: Perform ReSharper InspectCode
+      uses: JetBrains/ReSharper-InspectCode@v0.3
+      with:
+        solution: ./OpenMod.sln
+        settings: ./OpenMod.sln.DotSettings
