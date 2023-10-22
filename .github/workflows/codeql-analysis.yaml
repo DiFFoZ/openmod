@@ -5,6 +5,12 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    paths-ignore:
+      - '**/*.md'
+      - templates
+      - tools
+      - samples
+      - docs
   schedule:
     - cron: '0 6 * * 6'
 
@@ -34,30 +40,19 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-         languages: ${{ matrix.language }}
-         queries: +security-and-quality
-
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
-
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
-
-    #- run: |
-    #   make bootstrap
-    #   make release
+        languages: ${{ matrix.language }}
+        queries: +security-and-quality
 
     - name: Install ReSharper command line tools
       run: dotnet tool install JetBrains.ReSharper.GlobalTools --global --version 2023.2.2
 
+    - name: Build
+      run: |
+        dotnet restore
+        dotnet build -c Debug --no-restore -p:EnforceCodeStyleInBuild=true
+
     - name: Inspect code with ReSharper
-      run: jb inspectcode OpenMod.sln --no-build --verbosity=WARN --format=Sarif --output=results.sarif.json
+      run: jb inspectcode OpenMod.sln --no-build --verbosity=WARN --project=OpenMod.* --format=Sarif --output=results.sarif.json
 
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
@@ -68,4 +63,4 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
-          category: "/language:${{ matrix.language }}"
+        category: "/language:${{ matrix.language }}"
