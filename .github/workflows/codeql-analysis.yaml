@@ -55,7 +55,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ github.workspace }}/inspectcode
-        key: inspectcode-${{ hashFiles('.github/workflows/codeql-analysis.yaml', 'OpenMod.sln', '.editorconfig', 'OpenMod.sln.DotSettings' '**/*.csproj', '**/*.props') }}
+        key: inspectcode-${{ hashFiles('.github/workflows/codeql-analysis.yaml', 'OpenMod.sln', '.editorconfig', 'OpenMod.sln.DotSettings', '**/*.csproj', '**/*.props') }}
 
     - name: Inspect code with ReSharper
       run: jb inspectcode OpenMod.sln --no-build --verbosity=WARN --project=OpenMod.* --exclude="unturned/OpenMod.Unturned.Module.Shared/System.Drawing/*" --caches-home=inspectcode --format=Sarif --output=results.sarif.json
