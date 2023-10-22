@@ -69,13 +69,16 @@ namespace OpenMod.Unturned.Users
             Provider.onRejectingPlayer += OnRejectingPlayer;
         }
 
-        protected virtual void OnPlayerConnected(CSteamID steamID)
+        protected virtual void OnPlayerConnected(CSteamID steamId)
         {
-            var pending = m_PendingUsers.FirstOrDefault(d => d.SteamId == steamID);
+            var pending = m_PendingUsers.FirstOrDefault(d => d.SteamId == steamId);
             if (pending != null)
             {
                 FinishSession(pending);
             }
+
+            var steamID = steamId;
+            
 
             var steamPlayer = PlayerTool.getSteamPlayer(steamID);
             if (steamPlayer == null)
